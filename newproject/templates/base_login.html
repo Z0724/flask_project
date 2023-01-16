@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}會員登入{% endblock %}
+
+{% block main %}
+<div class="jumbotron">
+<form method="POST">
+  {# This hidden_tag is a CSRF security feature. #} 
+  {{ form.hidden_tag() }}
+
+  <div class="row mb-1 col-sm-5">
+    {{ form.email.label(class="col-sm-3 col-form-label") }} 
+    </div><div class="col-sm-3">
+    {{ form.email(class="form-control") }}
+    </div>
+    <div class="row mb-1 col-sm-5">
+    {{ form.password.label(class="col-sm-3 col-form-label") }} 
+    </div><div class="col-sm-3">
+    {{ form.password(class_="form-control") }}
+    </div>
+    <div class="row mb-2 col-2 row align-items-start">
+    {{form.submit(class_="form-control btn btn-danger btn-lg")}}
+    </div>
+  </form>
+</div>
+
+{% endblock %}
