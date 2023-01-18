@@ -6,23 +6,24 @@ from newproject.forms import LoginForm, RegistrationForm
 
 
 
+
 @app.route('/',methods=['POST','GET'])
 def base_test():
     return render_template('base_test.html')
 
-@app.route('/base_login',methods=['POST','GET'])
+@app.route('/login',methods=['POST','GET'])
 def base_login():
     form = LoginForm()
     if form.validate_on_submit():
-            user = User.query.filter_by(email=form.email.data).first()
-            if user.check_password(form.password.data) and user is not None:
-                login_user(user)
-                flash("您已經成功的登入系統")
-                next = request.args.get('next')
-                if next == None or not next[0]=='/':
-                    next = url_for('base_test.html')
-                return redirect(next)
-            return render_template('base_login.html',form=form)
+        user = User.query.filter_by(email=form.email.data).first()
+        if user.check_password(form.password.data) and user is not None:
+            login_user(user)
+            flash("您已經成功的登入系統")
+            next = request.args.get('next')
+            if  next == None or not next[0]=='/':
+                next = url_for('base_test')
+            return redirect(next)
+    return render_template('base_login.html',form=form)
 
 @app.route('/logout',methods=['POST','GET'])
 @login_required
@@ -34,6 +35,7 @@ def logout():
 @app.route('/test',methods=['POST','GET'])
 def test():
     return render_template('test.html')
+
 
 
 @app.route("/base_signup",methods=['POST','GET'])

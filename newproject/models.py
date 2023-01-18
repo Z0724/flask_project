@@ -1,6 +1,7 @@
 from newproject import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from newproject import app
 
 # 這邊放資料庫相關涵式
 
@@ -23,6 +24,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         """檢查使用者密碼"""
         return check_password_hash(self.password_hash, password)
+
+with app.app_context():
+    db.create_all()
 
 # 可以依照user_id，對應出資料庫中實際的User
 @login_manager.user_loader
