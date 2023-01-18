@@ -5,6 +5,7 @@ from newproject.models import User
 from newproject.forms import LoginForm, RegistrationForm
 
 
+
 @app.route('/',methods=['POST','GET'])
 def base_test():
     return render_template('base_test.html')

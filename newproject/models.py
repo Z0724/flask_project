@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
         """檢查使用者密碼"""
         return check_password_hash(self.password_hash, password)
 
+# 可以依照user_id，對應出資料庫中實際的User
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
