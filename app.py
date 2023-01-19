@@ -44,12 +44,12 @@ def base_signup():
     if form.validate_on_submit():
         user = User(email=form.email.data,
         username=form.username.data, password=form.password.data)
-        
+
         # add to db table
         db.session.add(user)
         db.session.commit()
         flash("註冊成功")
-        return redirect(url_for('base_login.html'))
+        return redirect(url_for('base_login'))
     return render_template('base_signup.html',form=form)
 
 @app.route('/base_member',methods=['POST','GET'])

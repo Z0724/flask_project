@@ -17,7 +17,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('註冊信箱', validators=[DataRequired(), Email()])
     username = StringField('您的暱稱', validators=[DataRequired()])
     password = PasswordField('註冊密碼', validators=[DataRequired(), EqualTo('pass_confirm', message='密碼需要吻合')])
-    pasw_confirm = PasswordField('確認密碼', validators=[DataRequired()])
+    pass_confirm = PasswordField('確認密碼', validators=[DataRequired()])
     submit = SubmitField('註冊')
 
 
