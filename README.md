@@ -8,6 +8,8 @@ python + flask + 資料庫
 
 會員系統
 
+密碼>轉雜湊存資料庫
+
 flask-login #登入系統套件
 
 sqlalchemy
