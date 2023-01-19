@@ -14,4 +14,6 @@ sqlalchemy
 
 flask_wtforms #表單套件
 
+資料庫：目前用sqlite，後續可接mysql
+
 flask-admin(預計) #後台系統
