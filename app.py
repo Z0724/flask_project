@@ -3,8 +3,8 @@ from flask_login import login_user, logout_user, login_required
 from newproject import app, db, admin
 from newproject.models import User
 from newproject.forms import LoginForm, RegistrationForm
-
-
+from flask_admin import BaseView, expose
+from flask_admin.contrib.sqla import ModelView
 
 
 @app.route('/',methods=['POST','GET'])
@@ -12,7 +12,7 @@ def base_test():
     return render_template('base_test.html')
 
 @app.route('/login',methods=['POST','GET'])
-def base_login():
+def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -56,6 +56,23 @@ def base_signup():
 @login_required
 def welcome_user():
     return render_template('base_member.html')
+
+class MyView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('base_admin.html')
+class MyView2(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('base_admin2.html')
+
+
+admin.add_view(MyView(name='Hello'))
+admin.add_view(ModelView(User, db.session))
+admin.add_view(MyView2(name='Hello 1', endpoint='test1', category='Test'))
+admin.add_view(MyView2(name='Hello 2', endpoint='test2', category='Test'))
+admin.add_view(MyView2(name='Hello 3', endpoint='test3', category='Test'))
+
 
 
 if __name__ == "__main__":
