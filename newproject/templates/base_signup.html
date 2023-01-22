@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}會員註冊{% endblock %}
 
 {% block main %}
 <div class="jumbotron">
-<form method="POST">
+<!--<form method="POST">
   {{ form.hidden_tag() }}
   <div class="row mb-1 col-sm-5">
     {{ form.email.label(class="col-sm-3 col-form-label") }} 
@@ -28,7 +29,10 @@
     </div><div class="row mb-2 col-2 row align-items-start">
     {{form.submit(class_="form-control btn btn-danger btn-lg")}}
     </div>
-    </form> 
+    </form> -->
+  <div class="col-md-4">
+      {{ wtf.quick_form(form) }}
+  </div>
 </div>
 
 {% endblock %}

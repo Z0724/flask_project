@@ -1,4 +1,4 @@
-from newproject import db, login_manager
+from newproject import db, login_manager, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from newproject import app
@@ -26,6 +26,22 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         """檢查使用者密碼"""
         return check_password_hash(self.password_hash, password)
+
+
+class message_board(db.Model):
+    __tablename__ = 'message_board'
+    
+    # columns
+    mb_id       = db.Column(db.Integer, primary_key = True)
+    mb_title    = db.Column(db.String(64), unique=True, index=True)
+    mb_username = db.Column(db.String(64), index=True)
+    mb_message = db.Column(db.String(300))
+    mb_data = db.Column(db.DateTime, default=datetime.utcnow)
+    def __init__(self, mb_title, mb_username, mb_message):
+        """初始化"""
+        self.mb_title = mb_title
+        self.mb_username = mb_username
+        self.mb_message = mb_message
 
 with app.app_context():
     db.create_all()

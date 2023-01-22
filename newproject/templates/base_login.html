@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}會員登入{% endblock %}
 
 {% block main %}
 <div class="jumbotron">
-<form method="POST">
+<!--<form method="POST">
   {# This hidden_tag is a CSRF security feature. #} 
   {{ form.hidden_tag() }}
 
@@ -21,7 +22,10 @@
     <div class="row mb-2 col-2 row align-items-start">
     {{form.submit(class_="form-control btn btn-danger btn-lg")}}
     </div>
-  </form>
+  </form>-->
+  <div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
 </div>
 
 {% endblock %}

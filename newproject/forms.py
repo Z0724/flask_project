@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, email_validator
 from wtforms import ValidationError
 from newproject.models import User
@@ -27,3 +27,10 @@ class RegistrationForm(FlaskForm):
     def check_username(self, field):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('使用者名稱已經存在')
+
+# 留言板
+class messageForm(FlaskForm):
+    mb_title = StringField('標題', validators=[DataRequired()])
+    mb_username = StringField('暱稱',validators=[DataRequired()])
+    mb_message = TextAreaField('內容',validators=[DataRequired()])
+    submit = SubmitField('送出')

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}留言板{% endblock %}
+
+{% block main %}
+
+<div class="jumbotron">
+  <div>
+  <table border="1" method='post'>
+    <thead>
+      <tr>
+        <th>編號</th>
+        <th>標題</th>
+        <th>暱稱</th>
+        <th>留言</th>
+        <th>留言時間</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in views%}
+      <tr>
+        <td>{{item.mb_id}}</td>
+        <td>{{item.mb_title}}</td>
+        <td>{{item.mb_username}}</td>
+        <td>{{item.mb_message}}</td>
+        <td>{{item.mb_data}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <br>
+  <div><h3>請輸入留言：</h3></div>
+    <div>
+    <form method="POST">
+        <table>
+        {# This hidden_tag is a CSRF security feature. #} 
+        {{ form.hidden_tag() }}
+        <tr><td>{{ form.mb_title.label }} {{ form.mb_title}}</td></tr>
+        <tr><td>{{ form.mb_username.label }} {{ form.mb_username }}</td></tr>
+        <tr><td>{{ form.mb_message.label }} {{ form.mb_message }}</td></tr>
+        </table>
+        <br>
+        <div>
+          {{form.submit}}
+        </div>
+        </form>
+    </div>
+  </div>
+
+{% endblock %}
