@@ -3,11 +3,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from newproject import app
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import bcrypt
 
 
 # 這邊放資料庫相關涵式
 
-
+# UserMixin記錄用戶狀態
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     
@@ -26,7 +27,7 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         """檢查使用者密碼"""
         return check_password_hash(self.password_hash, password)
-
+# bcrypt 加密密碼
 
 class message_board(db.Model):
     __tablename__ = 'message_board'

@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy, query
 from datetime import datetime
 from flask_migrate import Migrate
@@ -24,13 +24,13 @@ db = SQLAlchemy(app)
 Migrate(app,db)
 # 設置flask-login中對session的安全等級
 SESSION_PROTECTION = 'strong'
-
+# 初始化flask-login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 # 初始化ADMIN
 admin = Admin(app, name='就是後台', template_mode='bootstrap3')
-
-
+# 定義Blueprint
+# author = Blueprint('author', __name__)
 

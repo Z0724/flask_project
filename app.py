@@ -1,12 +1,14 @@
 from flask import render_template, redirect, request, url_for, flash, abort
 from flask_login import login_user, logout_user, login_required
-
 from newproject import app, db, admin
 from newproject.models import User, message_board
 from newproject.forms import LoginForm, RegistrationForm, messageForm
 from flask_admin import BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 
+@app.route('/test',methods=['POST','GET'])
+def test():
+    return render_template('test.html')
 
 @app.route('/',methods=['POST','GET'])
 def base_test():
@@ -18,12 +20,20 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user.check_password(form.password.data) and user is not None:
-            login_user(user)
+            # 第二個參數是記得我的參數
+            login_user(user, form.remember_me.data)
             flash("您已經成功的登入系統")
+            # 利用request來取得參數next，上個頁面在哪
             next = request.args.get('next')
+            # 自定義一個驗證的function來確認使用者是否確實有該url的權限
+            # 另一個用法if not next_is_valid(next):
+            # next_is_valid需要另外寫函式next_is_valid(url):return True
             if  next == None or not next[0]=='/':
                 next = url_for('base_test')
             return redirect(next)
+        else:
+            #  如果資料庫無此帳號或密碼錯誤，就顯示錯誤訊息。
+            flash('信箱或密碼錯誤')
     return render_template('base_login.html',form=form)
 
 @app.route('/logout',methods=['POST','GET'])
@@ -31,15 +41,16 @@ def login():
 def logout():
     logout_user()
     flash("您已經登出")
-    return redirect(url_for('base_test.html'))
+    return redirect(url_for('test'))
 
 @app.route("/base_signup",methods=['POST','GET'])
 def base_signup():
     form = RegistrationForm()
     if form.validate_on_submit():
+        form.check_email()
+        form.check_username()
         user = User(email=form.email.data,
         username=form.username.data, password=form.password.data)
-
         # add to db table
         db.session.add(user)
         db.session.commit()
@@ -49,6 +60,7 @@ def base_signup():
 
 @app.route('/member',methods=['POST','GET'])
 @login_required
+#需要登入才能進入
 def welcome_user():
     return render_template('base_member.html')
 

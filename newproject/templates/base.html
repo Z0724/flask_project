@@ -50,22 +50,33 @@
           </ul>
         </div>
           <ul class="nav navbar-nav navbar-right">
-            {% if email in email %}
-            <li><a href="../upload">上傳</a></li>
-            <li><a href="../logout">登出</a></li>
+            {% if current_user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('test') }}">
+              施工中</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">
+              登出</a></li>
             {% else %}
       
-            <li class="nav-item"><a class="nav-link" href="../base_signup">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('base_signup') }}">
                 註冊</a></li>
-            <li class="nav-item"><a class="nav-link" href="../login">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">
                 登入</a></li>
             {% endif %}
         </ul>
         </div>
       </nav>
     <main>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
         <!-- 可供更改的部分 -->
-      {% block main %}{% endblock %}
+      {% block main %} {% endblock %}
     </main>
       
         <!-- 希望能固定出現在每個網頁的 footer 
