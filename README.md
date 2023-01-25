@@ -54,19 +54,19 @@ V0.8草稿
 MAIL驗證信(為測試方便暫不實裝)  
 >影響帳號驗證、密碼變更、遺失密碼功能  
 
-
-擴充資料庫操作migrate
-$ flask db init
-# -m: Migration message
-$ flask db migrate -m 'DB init'
-$ flask db upgrade
-其他更多指令可使用 flask db --help 查看
-    
-$ flask db stamp head  # Target database is not up to date錯誤時用
-$ flask db heads  # 看版本
-
-新版migrate不支持這個用法
-$ python manage.py db init  #  初始化資料庫
-$ python manage.py db migrate  #  建置腳本
-$ python manage.py db upgrade  #  更新
-$ python manage.py db downgrade  #  降版
+  
+擴充資料庫操作migrate  
+$ flask db init  
+# -m: Migration message  
+$ flask db migrate -m 'DB init'  
+$ flask db upgrade  
+其他更多指令可使用 flask db --help 查看  
+      
+$ flask db stamp head  # Target database is not up to date錯誤時用  
+$ flask db heads  # 看版本  
+  
+新版migrate不支持這個用法  
+$ python manage.py db init  #  初始化資料庫  
+$ python manage.py db migrate  #  建置腳本  
+$ python manage.py db upgrade  #  更新  
+$ python manage.py db downgrade  #  降版  
