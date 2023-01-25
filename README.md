@@ -41,15 +41,32 @@ flask-admin #後台系統
 9. API  
   
 
-V0.7草稿  
-1. 登入訊息閃現修正，解決flash沒出現的問題，已經會跳出錯誤訊息囉  
-2. 註冊表單錯誤提示完成，重複email、暱稱及確認密碼有問題時，點擊註冊會有訊息提示  
-3. 登入頁增加可勾選保持登入  
-4. 實裝導覽列會員專區、註冊、登入、登出轉跳頁面與顯示  
-    >會員專區需登入才能看  
-    >登入後才會看到登出鍵  
-    >登入成功之後會引導至來源頁面  
-5. 新增requirement需求套件清單，可能有多列的套件  
- 
-EMAIL驗證信(為測試方便暫不實裝)  
+V0.8草稿  
+1. 增加部落格功能(80%半成品，首頁未實裝)  
+2. 調整架構，使用flask-blueprint分割部落格程式  
+3. 加深了解flask-migrate概念及用法  
+4. 擴充使用者資料庫欄位，同資料表分開表單寫入資料  
+5. 學會用SQLAlchemy進行資料庫關聯  
+6. 新增404錯誤導入頁面(目前導入有些問題)  
+
+
+
+MAIL驗證信(為測試方便暫不實裝)  
 >影響帳號驗證、密碼變更、遺失密碼功能  
+
+
+擴充資料庫操作migrate
+$ flask db init
+# -m: Migration message
+$ flask db migrate -m 'DB init'
+$ flask db upgrade
+其他更多指令可使用 flask db --help 查看
+    
+$ flask db stamp head  # Target database is not up to date錯誤時用
+$ flask db heads  # 看版本
+
+新版migrate不支持這個用法
+$ python manage.py db init  #  初始化資料庫
+$ python manage.py db migrate  #  建置腳本
+$ python manage.py db upgrade  #  更新
+$ python manage.py db downgrade  #  降版

@@ -8,6 +8,7 @@ from flask_bcrypt import bcrypt
 
 # 這邊放資料庫相關涵式
 
+
 # UserMixin記錄用戶狀態
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -17,15 +18,23 @@ class User(db.Model, UserMixin):
     email    = db.Column(db.String(64),unique=True, index=True)
     username = db.Column(db.String(64),unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    about_me = db.Column(db.Text())
+    location = db.Column(db.String(20))
+    gender = db.Column(db.String(10))
+    regist_date = db.Column(db.DateTime, default = datetime.utcnow())
+    last_login = db.Column(db.DateTime, default = datetime.utcnow())
+    blog_mains = db.relationship('Blog_Main', backref='user', lazy='dynamic'
+)
+    blog_posts = db.relationship('Blog_Post', backref='user', lazy='dynamic')
     def __init__(self, email, username, password):
-        """初始化"""
+        # """初始化"""
         self.email = email
         self.username = username
         # 實際存入的為password_hash，而非password本身
         self.password_hash = generate_password_hash(password)
     
     def check_password(self, password):
-        """檢查使用者密碼"""
+        # """檢查使用者密碼"""
         return check_password_hash(self.password_hash, password)
 # bcrypt 加密密碼
 

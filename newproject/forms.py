@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField, Bool
 from wtforms.validators import DataRequired, Email, EqualTo, email_validator
 from wtforms import ValidationError
 from newproject.models import User
-
+from newproject.main.form import FormUserInfo
 # 這邊放表單相關涵式
 
 # 登入

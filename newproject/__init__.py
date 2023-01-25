@@ -7,6 +7,8 @@ from flask_login import LoginManager
 from flask_admin import Admin
 from flask_babelex import Babel #中文化後台
 from flask_bootstrap import Bootstrap
+from flaskext.markdown import Markdown
+
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -28,9 +30,14 @@ SESSION_PROTECTION = 'strong'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+# 初始化Markdown
+markdown = Markdown(app)
 
 # 初始化ADMIN
 admin = Admin(app, name='就是後台', template_mode='bootstrap3')
-# 定義Blueprint
-# author = Blueprint('author', __name__)
 
+# 將原本import的view調整成blueprint 註冊blueprint
+from newproject.main import main
+app.register_blueprint(main, url_prefix='/main')
+from newproject.blog import blog  
+app.register_blueprint(blog, url_prefix='/blog')

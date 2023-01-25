@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}編修資料{% endblock %}
+{% block main %}
+<div class="jumbotron">
+    <h1>Post List {{ blog.blog_name }}</h1>
+
+    <div class="post-list">
+        <!---  調整為posts.items，變為分頁的物件 ---->
+        {% for post in posts.items %}
+        <div class="post-content">
+            <a href="{{ url_for('blog.read_blog_post', slug=post.slug) }}">{{ post.title }}</a>
+            <div class="post-footer">Post By <a href="#"> {{ post.user.username }}</a> on {{ post.create_date.strftime('%Y-%m-%d') }} in
+                <a href="#">{{ post.categorys.name }}</a> </div>
+        </div>
+        {% endfor %}
+    </div>
+        <!---  分頁功能，來自flask_sqlalchemy範例  --->
+    <div class="post-paginate">
+        {% for page in posts.iter_pages() %}
+        {% if page %}
+          {% if page != posts.page %}
+            <a href="{{ url_for('blog.post_list', blog_id=blog.id, page=page) }}">{{ page }}</a>
+          {% else %}
+            <strong>{{ page }}</strong>
+          {% endif %}
+        {% else %}
+          <span class=ellipsis>…</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}

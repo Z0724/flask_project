@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block main %}
+<div class="jumbotron">
+    <div class="page-header">
+        <h2>Post</h2>
+    </div>
+        <div>
+            <h3>{{ post.title }}</h3>
+                <!-- 加入判斷作者與目前登入人員是否相同，若是則顯示 -->
+                {% if post.author_id == current_user.id %}
+                <div class="post-editor">
+                    <a href="{{ url_for('blog.update_blog_post', post_id = post.id) }}">Edit</a>
+                </div>
+                {% endif %}
+            <div>
+                {{ post.body|markdown }}
+            </div>
+            <div class="post-footer">
+                Post By <a href="#"> {{ post.user.username }}</a> on {{ post.create_date.strftime('%Y-%m-%d') }} in
+                <a href="#">{{ post.categorys.name }}</a>
+            </div>
+        </div>
+</div>
+{% endblock %}
