@@ -1,11 +1,12 @@
 from flask import render_template, redirect, request, url_for, flash, abort
 from flask_login import login_user, logout_user, login_required
 from newproject import app, db, admin
-from newproject.models import User, message_board
+from newproject.models import User, message_board, Role, Func
 from newproject.blog.model import Blog_Category, Blog_Main, Blog_Post
 from newproject.forms import LoginForm, RegistrationForm, messageForm
 from flask_admin import BaseView, expose
 from flask_admin.contrib.sqla import ModelView
+from flask_paginate import Pagination, get_page_parameter
 
 @app.route('/test',methods=['POST','GET'])
 def test():
@@ -68,7 +69,8 @@ def base_myself():
     return render_template('base_myself.html')
 
 @app.route('/message',methods=['POST','GET'])
-def mb_message():
+@app.route('/message/<int:page>/',methods=['POST','GET'])
+def mb_message(page=1):
     form = messageForm()
     if form.validate_on_submit():
         message = message_board(mb_title=form.mb_title.data,
@@ -78,8 +80,19 @@ def mb_message():
         db.session.add(message)
         db.session.commit()
         flash("留言成功")
-        return redirect(url_for('mb_message', views=message_board.query.all()))
-    return render_template('base_message.html',form=form , views=message_board.query.all())
+        return redirect(url_for('mb_message', posts=posts))
+    
+    # page = message_board.query.paginate(page=1, per_page=3).all()
+    # posts = db.paginate(db.select(message_board).order_by(message_board.mb_id, message_board.mb_title, message_board.mb_username, message_board.mb_message, message_board.mb_data),per_page=3)
+    # page = request.args.get(get_page_parameter(), type=int, default=int(page))
+    # err = message_board.query.filter_by().first_or_404()
+    # pagination = Pagination(page=page, total=12,per_page=5)
+    # posts = message_board.query.paginate(page=1, per_page=3).items()
+    posts=message_board.query.filter_by().paginate(page=page,per_page=3)
+
+
+    return render_template('base_message.html',form=form,posts=posts)
+    # , views=message_board.query.all()
 
     
 
@@ -99,10 +112,10 @@ admin.add_view(ModelView(message_board, db.session))
 admin.add_view(ModelView(Blog_Category, db.session))
 admin.add_view(ModelView(Blog_Main, db.session))
 admin.add_view(ModelView(Blog_Post, db.session))
+admin.add_view(ModelView(Role, db.session))
+admin.add_view(ModelView(Func, db.session))
 admin.add_view(MyView2(name='Hello 1', endpoint='test1', category='Test'))
 admin.add_view(MyView2(name='Hello 2', endpoint='test2', category='Test'))
-
-
 
 if __name__ == "__main__":
 	app.run()
