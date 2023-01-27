@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, validators
 from wtforms.validators import DataRequired, Email, EqualTo, email_validator
 from wtforms import ValidationError
 from newproject.models import User
@@ -34,3 +34,21 @@ class messageForm(FlaskForm):
     mb_username = StringField('暱稱',validators=[DataRequired()])
     mb_message = TextAreaField('內容',validators=[DataRequired()])
     submit = SubmitField('送出')
+
+
+# 權限註冊
+class FormFunc(FlaskForm):
+    func_module_name = StringField('func_module_name', validators=[
+        validators.DataRequired(),
+        validators.Length(max=50, message="Max Length equal 50")
+    ])
+    func_description = StringField('func_description', validators=[
+        validators.DataRequired(),
+        validators.Length(max=100, message="Max Length equal 100")
+    ])
+    func_is_activate = BooleanField('is_activate', default="checked")
+    func_remark = StringField('func_remark', validators=[
+        validators.DataRequired(),
+        validators.Length(max=100, message="Max Length equal 100")
+    ])
+    submit = SubmitField('Add New View Function')

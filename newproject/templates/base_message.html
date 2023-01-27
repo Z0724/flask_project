@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}留言板{% endblock %}
 
 {% block main %}
@@ -17,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for item in views%}
+      {% for item in posts%}
       <tr>
         <td>{{item.mb_id}}</td>
         <td>{{item.mb_title}}</td>
@@ -29,6 +28,20 @@
     </tbody>
   </table>
   </div>
+      <!---  分頁功能，來自flask_sqlalchemy範例  --->
+<div class="post-paginate">
+  {% for page in posts.iter_pages() %}
+  {% if page %}
+    {% if page != posts.page %}
+      <a href="{{ url_for('mb_message', page=page) }}">{{ page }}</a>
+    {% else %}
+      <strong>{{ page }}</strong>
+    {% endif %}
+  {% else %}
+    <span class=ellipsis>…</span>
+  {% endif %}
+{% endfor %}
+</div>
   <br>
   <div><h3>請輸入留言：</h3></div>
     <div>

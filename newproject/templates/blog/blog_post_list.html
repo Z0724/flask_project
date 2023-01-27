@@ -8,7 +8,7 @@
 
     <div class="post-list">
         <!---  調整為posts.items，變為分頁的物件 ---->
-        {% for post in posts.items %}
+        {% for post in posts %}
         <div class="post-content">
             <a href="{{ url_for('blog.read_blog_post', slug=post.slug) }}">{{ post.title }}</a>
             <div class="post-footer">Post By <a href="#"> {{ post.user.username }}</a> on {{ post.create_date.strftime('%Y-%m-%d') }} in

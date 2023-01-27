@@ -10,6 +10,7 @@ from flask_bootstrap import Bootstrap
 from flaskext.markdown import Markdown
 
 
+
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SECRET_KEY']= 'ffsdfsddsbr'

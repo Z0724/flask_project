@@ -42,13 +42,10 @@ flask-admin #後台系統
   
 
 V0.8草稿  
-1. 增加部落格功能(80%半成品，首頁未實裝)  
-2. 調整架構，使用flask-blueprint分割部落格程式  
-3. 加深了解flask-migrate概念及用法  
-4. 擴充使用者資料庫欄位，同資料表分開表單寫入資料  
-5. 學會用SQLAlchemy進行資料庫關聯  
-6. 新增404錯誤導入頁面(目前導入有些問題)  
-
+1. 留言板增加分頁功能  
+2. 修正發文表單SelectField問題，部落格功能大致完成，等待擴充導覽列連結  
+3. 修正404錯誤頁面問題  
+4. 權限功能50%  
 
 
 MAIL驗證信(為測試方便暫不實裝)  
@@ -57,7 +54,7 @@ MAIL驗證信(為測試方便暫不實裝)
   
 擴充資料庫操作migrate  
 $ flask db init  
-# -m: Migration message  
+"-m: Migration message"   
 $ flask db migrate -m 'DB init'  
 $ flask db upgrade  
 其他更多指令可使用 flask db --help 查看  

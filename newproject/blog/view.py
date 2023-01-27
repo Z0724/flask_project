@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from newproject.blog.form import Form_Blog_Main, Form_Blog_Post
 from newproject.blog.model import Blog_Main, Blog_Post, Blog_Category
 from datetime import datetime
@@ -6,6 +6,8 @@ from newproject import db
 from flask_login import login_required, current_user
 from . import blog
 from slugify import slugify
+from flask_paginate import Pagination, get_page_parameter
+from decorator_permission import decorator_permission
 
 @blog.route('/blog_main/c',methods=['POST','GET'])
 @login_required
@@ -50,17 +52,13 @@ def post_blog_post():
 
 @blog.route('/post_list/<blog_id>/')
 @blog.route('/post_list/<blog_id>/<int:page>/')
-def post_list(blog_id, page=1):
+def post_list(blog_id):
     #  加入分頁功能，設置每頁顯示5筆，這部份可以以參數設置
-    posts = Blog_Post.query.filter_by(blog_main_id=blog_id).paginate(page, 5, False)
+    posts = Blog_Post.query.filter_by(blog_main_id=blog_id).paginate(per_page=5)
     #  利用first_or_404讓系統如果取不到blog的時候就拋出404
     blog = Blog_Main.query.filter_by(id=blog_id).first_or_404()
     return render_template('blog/blog_post_list.html', posts=posts, blog=blog)
 
-@blog.route('/blog_post/r/<slug>')
-def read_blog_post(slug):
-    post = Blog_Post.query.filter_by(slug=slug).first_or_404()
-    return render_template('blog/blog_post_read.html', post=post)
 
 # 編輯文章
 @blog.route('/blog_post/u/<int:post_id>/', methods=['GET', 'POST'])
@@ -94,3 +92,13 @@ def update_blog_post(post_id):
 #     if form.validate_on_submit():
 #         form.populate_obj(post)
 #         db.session.commit()
+
+@blog.route('/blog_post/r/<slug>/')
+@decorator_permission
+@login_required
+def read_blog_post(slug):
+    # if not current_user.check_author('app_blog.blog.view1', 'read_blog_post'):
+    #     flash('You Have No Author!')
+    #     return redirect(url_for('index'))
+    post = Blog_Post.query.filter_by(slug=slug).first_or_404()
+    return render_template('blog/blog_post_read.html', post=post)

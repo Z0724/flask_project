@@ -1,9 +1,9 @@
 from flask_login import login_required, current_user
 from flask import render_template, url_for, flash, redirect, abort
-from . import main
-from newproject.forms import FormUserInfo
+from . import main, errorhandler
+from newproject.forms import FormUserInfo, FormFunc
 from newproject import db
-from newproject.models import User
+from newproject.models import User, Func
 
 
 @main.route('/edituserinfo', methods=['GET', 'POST'])
@@ -32,3 +32,19 @@ def userinfo(username):
     if user is None:
         abort(404)
     return render_template('main/UserInfo.html', user=user)
+
+# 註冊View_Function
+@main.route('/viewfunction/c/', methods=['GET', 'POST'])
+def view_function_c():
+    form = FormFunc()
+    if form.validate_on_submit():
+        func = Func(
+            func_module_name=form.func_module_name.data,
+            func_description=form.func_description.data,
+            func_is_activate=form.func_is_activate.data,
+            func_remark=form.func_remark.data)
+        db.session.add(func)
+        db.session.commit()
+        flash('New Func %s Register Success..' % form.func_module_name.data)
+        return redirect(url_for('main.view_function_c'))
+    return render_template('main/createViewFunction.html', form=form)
