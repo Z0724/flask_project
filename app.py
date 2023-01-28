@@ -81,18 +81,9 @@ def mb_message(page=1):
         db.session.commit()
         flash("留言成功")
         return redirect(url_for('mb_message', posts=posts))
-    
-    # page = message_board.query.paginate(page=1, per_page=3).all()
-    # posts = db.paginate(db.select(message_board).order_by(message_board.mb_id, message_board.mb_title, message_board.mb_username, message_board.mb_message, message_board.mb_data),per_page=3)
-    # page = request.args.get(get_page_parameter(), type=int, default=int(page))
-    # err = message_board.query.filter_by().first_or_404()
-    # pagination = Pagination(page=page, total=12,per_page=5)
-    # posts = message_board.query.paginate(page=1, per_page=3).items()
-    posts=message_board.query.filter_by().paginate(page=page,per_page=3)
-
-
+    posts=message_board.query.filter_by().paginate(page=page,per_page=5)
     return render_template('base_message.html',form=form,posts=posts)
-    # , views=message_board.query.all()
+
 
     
 

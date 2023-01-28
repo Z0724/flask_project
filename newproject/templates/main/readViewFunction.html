@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macro.html" as macros %}
+
+{% block title %}編修資料{% endblock %}
+{% block main %}
+<div class="jumbotron">
+<div class="page-header">
+    <h1>Read View Function</h1>
+</div>
+<div class="func-list">
+    <table class="table">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        {% for func in funcs.items %}
+        <tr>
+            <td>{{ func.id }}</td>
+            <td>{{ func.func_module_name }}</td>
+            <td>{{ func.func_description }}</td>
+            <td>{{ func.func_is_activate }}</td>
+            <td>{{ func.func_remark }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<!---  分頁功能  --->
+<div class="paginate">
+    {{ macros.macro_paginate(funcs, 'main.view_function_r') }}
+</div>
+</div>
+{% endblock %}

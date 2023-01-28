@@ -52,3 +52,12 @@ class FormFunc(FlaskForm):
         validators.Length(max=100, message="Max Length equal 100")
     ])
     submit = SubmitField('Add New View Function')
+
+# Role角色管理用表單
+class FormRole(FlaskForm):
+    name = StringField('role_name', validators=[
+        validators.DataRequired(),
+        validators.Length(max=50, message='Max Length equal 50')
+    ])
+
+    submit = SubmitField('Add New Role')

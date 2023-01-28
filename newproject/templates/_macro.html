@@ -1,21 +1,24 @@
 <!---  分頁功能  --->
 <!---  paginate_obj:要迭代的物件  --->
 <!---  endpoint:要迭代的目標endpoint  --->
-{% macro render_pagination(pagination, endpoint) %}
-  <div class=page-items>
-    {{ pagination.first }} - {{ pagination.last }} of {{ pagination.total }}
-  </div>
-  <div class=pagination>
-    {% for page in pagination.iter_pages() %}
-      {% if page %}
-        {% if page != pagination.page %}
-          <a href="{{ url_for(mb_message, page=page) }}">{{ page }}</a>
-        {% else %}
-          <strong>{{ page }}</strong>
-        {% endif %}
-      {% else %}
-        <span class=ellipsis>…</span>
-      {% endif %}
-    {% endfor %}
-  </div>
-{% endmacro %}
+{% macro macro_paginate(paginate_obj, endpoint) -%}
+    <div class="post-paginate">
+        {% for page in paginate_obj.iter_pages() %}
+            {% if page %}
+                {% if page != paginate_obj.page %}
+                    <a href="{{ url_for(endpoint,  page=page, **kwargs) }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class=ellipsis>…</span>
+            {% endif %}
+        {% endfor %}
+    <div>
+{%- endmacro %}
+
+<!-- 第4行：利用macro表達式宣告macro_paginate
+第6行：調整為in paginate_obj.iter_pages()
+第8行：調整為!=paginate_obj.page
+第9行：調整為url_for(endpoint, page=page, **kwargs)，利用**kwargs來接其餘參數
+第18行：記得加入endmacro -->
