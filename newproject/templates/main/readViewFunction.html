@@ -2,11 +2,11 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macro.html" as macros %}
 
-{% block title %}編修資料{% endblock %}
+{% block title %}權限清單與管理{% endblock %}
 {% block main %}
 <div class="jumbotron">
 <div class="page-header">
-    <h1>Read View Function</h1>
+    <h1>權限清單與管理</h1>
 </div>
 <div class="func-list">
     <table class="table">
@@ -27,10 +27,14 @@
         </tr>
         {% endfor %}
     </table>
+
 </div>
 <!---  分頁功能  --->
 <div class="paginate">
     {{ macros.macro_paginate(funcs, 'main.view_function_r') }}
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
 </div>
 </div>
 {% endblock %}

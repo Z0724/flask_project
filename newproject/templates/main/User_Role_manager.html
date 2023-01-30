@@ -1,18 +1,17 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}編修資料{% endblock %}
+{% block title %}使用者角色管理{% endblock %}
 {% block main %}
 <div class="jumbotron">
     <div class="page-header">
-        <h1>User Role Manager</h1>
-        <h2>Modify User Role</h2>
+        <h1>使用者角色管理</h1>
     </div>
     <div class="col-md-4">
        <form method="POST" action>
             {{form.hidden_tag()}}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Role Choices</legend>
+                <legend class="border-bottom mb-4">選擇角色</legend>
                 {% if form.all_role_option.errors %}
                 <div class="invalid-feedback">
                     {% for error in form.all_role_option.errors %}

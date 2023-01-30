@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}編修資料{% endblock %}
+{% block title %}建立角色{% endblock %}
 {% block main %}
 <div class="jumbotron">
-    {% if action == 'create' %}
-    Create Role
-    {% elif action == 'edit' %}
-    Modify Role
-    {% endif %}
 
 <div class="page-header">
     {% if action == 'create' %}
-    <h1>Create Role</h1>
+    <h1>建立角色</h1>
     {% elif action == 'edit' %}
-    <h1>Modify Role</h1>
+    <h1>修改角色</h1>
     {% endif %}
     <div class="col-md-4">
         {{ wtf.quick_form(form) }}

@@ -4,7 +4,7 @@ from . import main, errorhandler
 from newproject.forms import FormUserInfo, FormFunc, FormRole
 from newproject import db
 from newproject.models import User, Func, Role
-from newproject.main.form import FormRole_Func_manager, Form_User_Role_manager
+from newproject.main.form import Form_User_Role_edit, Form_Role_Func_edit, FormRole_Func_manager, Form_User_Role_manager, Form_Func_edit, Form_Role_edit
 
 
 @main.route('/edituserinfo', methods=['GET', 'POST'])
@@ -46,18 +46,22 @@ def view_function_c():
             func_remark=form.func_remark.data)
         db.session.add(func)
         db.session.commit()
-        flash('New Func %s Register Success..' % form.func_module_name.data)
+        flash('新權限 %s 設置完畢' % form.func_module_name.data)
         return redirect(url_for('main.view_function_c'))
     return render_template('main/createViewFunction.html', form=form)
 
 # 查詢View Function List
-@main.route('/viewfunction/r', methods=['GET'])
-@main.route('/viewfunction/r/<int:page>/', methods=['GET'])
+@main.route('/viewfunction/r', methods=['GET', 'POST'])
+@main.route('/viewfunction/r/<int:page>/', methods=['GET', 'POST'])
 def view_function_r(page=1):
     #  欄位名稱
-    columns = ['ID', 'Module_Name', 'Func_Description', 'is_activate' , 'Func_Remark']
+    form = Form_Func_edit()
+    columns = ['ID', '權限名稱', '說明', '是否啟用' , '備註']
     funcs = Func.query.filter_by().paginate(page=page,per_page=5)
-    return render_template('main/readViewFunction.html', funcs=funcs, columns=columns)
+    if form.validate_on_submit():
+        Func_edit = form.Func_edit.data
+        return redirect(url_for('main.view_function_e', func_id=Func_edit))
+    return render_template('main/readViewFunction.html', funcs=funcs, columns=columns, form=form)
 
 # 編輯View Function,利用WTForm的obj來渲染Model讀出的資料，前提在於兩邊的名稱設置需要一致。
 @main.route('/viewfunction/e/<int:func_id>/', methods=['GET', 'POST'])
@@ -82,20 +86,32 @@ def role_manager_c():
             name=form.name.data)
         db.session.add(role)
         db.session.commit()
-        flash('New Role %s Register Success..' % form.name.data)
+        flash('新角色 %s 設置成功' % form.name.data)
         return redirect(url_for('main.role_manager_c'))
     return render_template('main/managerRole.html', form=form, action='create')
 
 
 # 查詢Role
-@main.route('/rolemanager/r', methods=['GET'])
-@main.route('/rolemanager/r/<int:page>/', methods=['GET'])
+@main.route('/rolemanager/r', methods=['GET', 'POST'])
+@main.route('/rolemanager/r/<int:page>/', methods=['GET', 'POST'])
 @login_required
 def role_manager_r(page=1):
     #  欄位名稱
-    columns = ['ID', 'Role_Name']
+    form = Form_Role_edit()
+    form2 = Form_Role_Func_edit()
+    form3 = Form_User_Role_edit()
+    columns = ['ID', '角色名稱']
     roles = Role.query.filter_by().paginate(page=page,per_page=5)
-    return render_template('main/readRole.html', roles=roles, columns=columns)
+    if form.validate_on_submit():
+        Role_edit = form.Role_edit.data
+        return redirect(url_for('main.role_manager_e', role_id=Role_edit))
+    if form2.validate_on_submit():
+        Role_Func_edit = form2.Role_Func_edit.data
+        return redirect(url_for('main.role_func_manager', role_id=Role_Func_edit))
+    if form3.validate_on_submit():
+        User_Role_edit = form3.User_Role_edit.data
+        return redirect(url_for('main.user_role_manager', user_id=User_Role_edit))
+    return render_template('main/readRole.html', roles=roles, columns=columns, form=form, form2=form2, form3=form3)
 
 # 編輯Role
 # 利用WTForm的obj來渲染Model讀出的資料，前提在於兩邊的名稱設置需要一致。
@@ -107,7 +123,7 @@ def role_manager_e(role_id):
     if form.validate_on_submit():
         form.populate_obj(role)
         db.session.commit()
-        flash('Update Role Success!')
+        flash('更新成功!')
         return redirect(url_for('main.role_manager_r', page=1))
     return render_template('main/managerRole.html', form=form, action='edit')
 
@@ -162,7 +178,7 @@ def user_role_manager(user_id):
             user.roles.append(role)
         db.session.add(user)
         db.session.commit()
-        flash('Modify %s Role Success!' % user.username)
+        flash('修改 %s 角色成功!' % user.username)
         return redirect(url_for('index'))
     #  務必執行，預設值才會成功
     form.process()

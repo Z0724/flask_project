@@ -9,6 +9,7 @@ from slugify import slugify
 from flask_paginate import Pagination, get_page_parameter
 from decorator_permission import decorator_permission
 
+# 建立部落格
 @blog.route('/blog_main/c',methods=['POST','GET'])
 @login_required
 def post_blog_main():
@@ -21,7 +22,7 @@ def post_blog_main():
         )
         db.session.add(blog)
         db.session.commit()
-        flash('Create New Blog Success')
+        flash('建立部落格完成')
         return redirect(url_for('main.userinfo', username=current_user.username))
     return render_template('blog/blogbook_edit.html', form=form)
 
@@ -29,6 +30,7 @@ def post_blog_main():
         # current_user.blog_mains.append(blog)
         # db.session.add(current_user)
 
+# 發文
 @blog.route('/blog_post/c', methods=['GET', 'POST'])
 @login_required
 def post_blog_post():
@@ -46,10 +48,12 @@ def post_blog_post():
         )
         db.session.add(post)
         db.session.commit()
-        flash('Blog Post Success')
+        flash('發文成功')
         return redirect(url_for('blog.read_blog_post', slug=post.slug))
     return render_template('blog/blog_post_edit.html', form=form)
 
+
+# 文章列表
 @blog.route('/post_list/<blog_id>/')
 @blog.route('/post_list/<blog_id>/<int:page>/')
 def post_list(blog_id):
@@ -74,7 +78,7 @@ def update_blog_post(post_id):
         post.category_id = form.post_category.data
         db.session.add(post)
         db.session.commit()
-        flash('Edit Your Post Success')
+        flash('修改文章成功')
         return redirect(url_for('blog.read_blog_post', slug=post.slug))
     form.post_title.data = post.title
     form.post_body.data = post.body

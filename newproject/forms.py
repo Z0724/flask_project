@@ -38,26 +38,26 @@ class messageForm(FlaskForm):
 
 # 權限註冊
 class FormFunc(FlaskForm):
-    func_module_name = StringField('func_module_name', validators=[
+    func_module_name = StringField('權限名稱', validators=[
         validators.DataRequired(),
         validators.Length(max=50, message="Max Length equal 50")
     ])
-    func_description = StringField('func_description', validators=[
+    func_description = StringField('權限說明', validators=[
         validators.DataRequired(),
         validators.Length(max=100, message="Max Length equal 100")
     ])
-    func_is_activate = BooleanField('is_activate', default="checked")
-    func_remark = StringField('func_remark', validators=[
+    func_is_activate = BooleanField('是否啟用', default="checked")
+    func_remark = StringField('備註', validators=[
         validators.DataRequired(),
         validators.Length(max=100, message="Max Length equal 100")
     ])
-    submit = SubmitField('Add New View Function')
+    submit = SubmitField('增加新權限')
 
 # Role角色管理用表單
 class FormRole(FlaskForm):
-    name = StringField('role_name', validators=[
+    name = StringField('角色名稱', validators=[
         validators.DataRequired(),
         validators.Length(max=50, message='Max Length equal 50')
     ])
 
-    submit = SubmitField('Add New Role')
+    submit = SubmitField('增加新角色')
