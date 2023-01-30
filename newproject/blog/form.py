@@ -30,27 +30,6 @@ class Form_Blog_Post(FlaskForm):
     def __init__(self):
         super(Form_Blog_Post, self).__init__()
         self.post_blog.choices = [(a.id, a.blog_name)
-                            for a in Blog_Main.query.order_by().all()]
+                            for a in Blog_Main.query.filter_by(author=current_user.id).all()]
         self.post_category.choices =  [(b.id,  b.name)
                             for b in Blog_Category.query.order_by().all()]
-
-    # def _get_blog_main(self):
-    #     obj = Blog_Main.query.with_entities(Blog_Main.id, Blog_Main.blog_name).filter_by(author=current_user._get_current_object().id).all()
-    #     return obj
-    # def _get_category(self):
-    #     obj = Blog_Category.query.with_entities(Blog_Category.id, Blog_Category.name).all()
-    #     return obj
-
-
-
-
-    # def _get_blog_main(request, id):
-    #     blogmain = Blog_Main.query.get(id)
-    #     form = Form_Blog_Post(request.POST, obj=blogmain)
-    #     form.post_blog.choices = Blog_Main.query.with_entities(Blog_Main.blog_name).filter_by(author=current_user._get_current_object().id).all()
-
-    # def _get_category(request, id):
-    #     postcategory = User.query.get(id)
-    #     form = Form_Blog_Post(request.POST, obj=postcategory)
-    #     form.post_category.choices = Blog_Category.query.with_entities(Blog_Category.name).all()
-

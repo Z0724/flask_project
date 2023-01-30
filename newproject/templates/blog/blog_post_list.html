@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}編修資料{% endblock %}
+{% block title %}部落格文章列表{% endblock %}
 {% block main %}
 <div class="jumbotron">
     <h1>Post List {{ blog.blog_name }}</h1>
@@ -11,7 +11,7 @@
         {% for post in posts %}
         <div class="post-content">
             <a href="{{ url_for('blog.read_blog_post', slug=post.slug) }}">{{ post.title }}</a>
-            <div class="post-footer">Post By <a href="#"> {{ post.user.username }}</a> on {{ post.create_date.strftime('%Y-%m-%d') }} in
+            <div class="post-footer">發文人 <a href="#"> {{ post.user.username }}</a> 發文於 {{ post.create_date.strftime('%Y-%m-%d') }} Tag
                 <a href="#">{{ post.categorys.name }}</a> </div>
         </div>
         {% endfor %}

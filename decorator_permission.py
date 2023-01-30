@@ -14,3 +14,7 @@ def decorator_permission(func):
             return redirect(url_for('index'))
     return wrapper
 
+# 在需要加權限的路由下面放@decorator_permission
+# 權限的設置規則如下
+# 權限名稱範例 newproject.blog.view.read_blog_post
+# newproject + 分割路由(有的話)) + view + 頁面路由名稱

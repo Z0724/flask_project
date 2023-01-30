@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}UserInfo{% endblock %}
+{% block title %}個人部落格管理{% endblock %}
 
 {% block main %}
 <div class="jumbotron">
     <div class="page-header">  
-        <h1>UserINFO</h1>  
+        <h1>個人部落格管理</h1>  
        </div>  
     <div>
         {% if user.location %}
-        <p>I live in {{ user.location }}</p>
+        <p>我來自 {{ user.location }}</p>
         {% endif %}
         {% if user.about_me %}
         <p>{{ user.about_me }}</p>

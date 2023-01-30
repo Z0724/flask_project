@@ -16,7 +16,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/">左上角</a>
+          <a class="navbar-brand" href="/">LOGO</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -26,33 +26,48 @@
                   <a class="nav-link active" aria-current="page" href="/">首頁</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/myself">自我介紹</a>
+                  <a class="nav-link" href="/myself">關於</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/message">留言板</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/member">會員專區</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">會員專區</a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/member">會員頁面(預留)</a>
+                        <a class="dropdown-item" href="{{ url_for('main.edituserinfo') }}">修改個人資訊</a>
+                      </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/admin">後台</a>
+                  <a class="nav-link" href="/admin">admin後台</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        下拉式選單
+                        部落格
                     </a>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="#">Dropdown 1</a>
-                          <a class="dropdown-item" href="#">Dropdown 2</a>
-                          <a class="dropdown-item" href="#">Dropdown 3</a>
-              </div>
-            </li>
-          </ul>
-        </div>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ url_for('main.userinfo', username=current_user.username) }}">個人部落格管理</a>
+                        <a class="dropdown-item" href="{{ url_for('blog.post_blog_main') }}">建立部落格</a>
+                        <a class="dropdown-item" href="/blog/blog_post/c">發文</a>
+                       </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                      自製簡易權限控制後台
+                  </a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ url_for('main.view_function_r') }}">權限清單</a>
+                        <a class="dropdown-item" href="{{ url_for('main.view_function_c') }}">新增權限</a>
+                        <a class="dropdown-item" href="{{ url_for('main.role_manager_r') }}">角色清單</a>
+                        <a class="dropdown-item" href="{{ url_for('main.role_manager_c') }}">建立角色</a>
+                      </div>
+                  </li>
+                </ul>
+            </div>
           <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{{ url_for('test') }}">
-              施工中</a></li>
+              預留</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">
               登出</a></li>
             {% else %}
