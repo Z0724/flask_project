@@ -1,6 +1,7 @@
 # project
   
-目前重心放在刷題跟看書補基礎，不定期會再更新專案。  
+已建立新專案重新開始，將吸收此專案的經驗並持續學習更多技術  
+https://github.com/Z0724/myweb  
   
 實作個人專案  
 python + flask框架 + 資料庫sqlite(可隨時轉 MYSQL 或 MONGODB ) + admin後台  
